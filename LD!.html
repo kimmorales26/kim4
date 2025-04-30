@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0f7e0; 
+        }
+
+        .login-container {
+            background-color: #81c784;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #2e7d32; 
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #388e3c; 
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #388e3c; 
+        }
+
+        #error-message {
+            color: #d32f2f; 
+            display: none;
+        }
+
+        #countdown-message {
+            color: #f57c00; 
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Log In</button>
+        </form>
+        <p id="error-message">Incorrect username or password!</p>
+        <p id="countdown-message"></p>
+    </div>
+
+    <script>
+        let failedAttempts = 0;
+        let countdownTimer;
+
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            
+            const correctUsername = "admin123";
+            const correctPassword = "admin123";
+
+            
+            if (failedAttempts >= 1) {
+                document.getElementById("error-message").style.display = "none";
+                startCountdown();
+                return;
+            }
+
+            
+            if (username === correctUsername && password === correctPassword) {
+                // Redirect to your website
+                window.location.href = "index.html";
+            } else {
+                failedAttempts++;
+                document.getElementById("error-message").style.display = "block";
+            }
+        });
+
+        
+        function startCountdown() {
+            let countdownValue = 10;
+            document.getElementById("countdown-message").style.display = "block";
+            document.getElementById("countdown-message").innerText = `Please wait ${countdownValue} seconds before trying again.`;
+
+            countdownTimer = setInterval(function() {
+                countdownValue--;
+                document.getElementById("countdown-message").innerText = `Please wait ${countdownValue} seconds before trying again.`;
+
+                if (countdownValue <= 0) {
+                    clearInterval(countdownTimer);
+                    failedAttempts = 0; 
+                    document.getElementById("countdown-message").style.display = "none";
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
